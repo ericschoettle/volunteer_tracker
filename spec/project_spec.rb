@@ -3,42 +3,30 @@ require 'spec_helper'
 describe(Project) do
   describe '#name' do
     it('gives the name of the project') do
-      test_project = Project.new({:name => "polar express"})
-      expect(test_project.name()).to eq("polar express")
+      project = Helper.make_projects()
+      expect(project.name()).to eq("Plant trees")
     end
   end
 
   describe '#id and #save' do
     it('saves and gives ID') do
-      test_project = Project.new({:name => "polar express"})
-      test_project.save()
-      expect(test_project.id()).to be_an_instance_of(Fixnum)
-      expect(Project.all()).to eq([test_project])
+      project = Helper.make_projects()
+      expect(project.id()).to be_an_instance_of(Fixnum)
+      expect(Project.all()).to eq([project])
     end
   end
 
   describe '#==' do
     it('is true if projects have same name') do
-      project1 = Project.new({:name => "polar express"})
-      project2 = Project.new({:name => "polar express"})
-      expect(project1).to eq(project2)
-    end
-  end
-
-  describe '#==' do
-    it('is true if projects have same name') do
-      project1 = Project.new({:name => "polar express"})
-      project2 = Project.new({:name => "polar express"})
+      project1 = Helper.make_projects()
+      project2 = Helper.make_projects()
       expect(project1).to eq(project2)
     end
   end
 
   describe '.find' do
     it('returns a project by its ID') do
-      project1 = Project.new({:name => "polar express"})
-      project1.save()
-      project2 = Project.new({:name => "project2"})
-      project2.save()
+      project1, project2 = Helper.make_projects(2)
       expect(Project.find(project2.id())).to eq(project2)
     end
   end
@@ -53,8 +41,7 @@ describe(Project) do
   end
   describe '#update_project' do
     it "lets you update projects in the database" do
-      project = Project.new({:name => "polar express"})
-      project.save()
+      project = Helper.make_projects()
       project.update_project("thomas")
       project = Project.find(project.id())
       expect(project.name()).to(eq("thomas"))
@@ -63,16 +50,13 @@ describe(Project) do
 
   describe '#delete_project' do
     it "deletes a project from projects database" do
-      project = Project.new({:name => "polar express"})
-      project.save()
+      project = Helper.make_projects()
       project.delete_project()
       expect(Project.all()).to eq([])
     end
     it "deletes a project from projects_volunteers database" do
-      project = Project.new({:name => "polar express"})
-      project.save()
-      volunteer = Volunteer.new({:name => "Seattle"})
-      volunteer.save()
+      project = Helper.make_projects()
+      volunteer = Helper.make_volunteers()
       project.update_projects_volunteers({:volunteer_ids => [volunteer.id()]})
       project_volunteer = Helper.all_projects_volunteers().first()
       expect(project_volunteer["project_id"].to_i()).to eq(project.id())
@@ -83,27 +67,19 @@ describe(Project) do
 
   describe '#update_projects_volunteers' do
     it "creates join rows to connect volunteers and a project" do
-      project = Project.new({:name => "polar express"})
-      project.save()
-      volunteer = Volunteer.new({:name => "Toronto"})
-      volunteer.save()
-      volunteer1 = Volunteer.new({:name => "Omaha"})
-      volunteer1.save()
-      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer.id()]})
-      expect(project.volunteers()).to eq([volunteer1, volunteer])
+      project = Helper.make_projects()
+      volunteer1, volunteer2 = Helper.make_volunteers(2)
+      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer2.id()]})
+      expect(project.volunteers()).to eq([volunteer1, volunteer2])
     end
   end
 
   describe '#not_volunteers' do
     it "shows volunteers that are not assigned to the project" do
-      project = Project.new({:name => "polar express"})
-      project.save()
-      volunteer = Volunteer.new({:name => "Toronto"})
-      volunteer.save()
-      volunteer1 = Volunteer.new({:name => "Omaha"})
-      volunteer1.save()
+      project = Helper.make_projects()
+      volunteer1, volunteer2 = Helper.make_volunteers(2)
       project.update_projects_volunteers({:volunteer_ids => [volunteer1.id()]})
-      expect(project.not_volunteers()).to eq([volunteer])
+      expect(project.not_volunteers()).to eq([volunteer2])
     end
   end
 end
