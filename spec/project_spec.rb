@@ -39,12 +39,22 @@ describe(Project) do
       expect(project.volunteers()).to eq([volunteer0, volunteer1])
     end
   end
+
+  describe '#not_volunteers' do
+    it "shows volunteers that are not assigned to the project" do
+      project = Helper.make_projects()
+      volunteer1, volunteer2 = Helper.make_volunteers(2)
+      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id()]})
+      expect(project.not_volunteers()).to eq([volunteer2])
+    end
+  end
+
   describe '#update_project' do
     it "lets you update projects in the database" do
       project = Helper.make_projects()
-      project.update_project("thomas")
+      project.update_project("make things")
       project = Project.find(project.id())
-      expect(project.name()).to(eq("thomas"))
+      expect(project.name()).to(eq("make things"))
     end
   end
 
@@ -71,15 +81,6 @@ describe(Project) do
       volunteer1, volunteer2 = Helper.make_volunteers(2)
       project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer2.id()]})
       expect(project.volunteers()).to eq([volunteer1, volunteer2])
-    end
-  end
-
-  describe '#not_volunteers' do
-    it "shows volunteers that are not assigned to the project" do
-      project = Helper.make_projects()
-      volunteer1, volunteer2 = Helper.make_volunteers(2)
-      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id()]})
-      expect(project.not_volunteers()).to eq([volunteer2])
     end
   end
 end

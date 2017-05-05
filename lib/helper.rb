@@ -2,6 +2,8 @@ class Helper
   def self.clear_db
     DB.exec("DELETE FROM volunteers *;")
     DB.exec("DELETE FROM projects *;")
+    DB.exec("DELETE FROM projects_volunteers *;")
+    DB.exec("DELETE FROM leaders *;")
   end
 
   def self.all_projects_volunteers

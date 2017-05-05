@@ -1,5 +1,6 @@
 require './lib/project'
 require './lib/volunteer'
+require './lib/leader'
 require './lib/helper'
 require 'pry'
 require 'pg'
@@ -12,5 +13,6 @@ RSpec.configure do |config|
     DB.exec("DELETE FROM volunteers *;")
     DB.exec("DELETE FROM projects *;")
     DB.exec("DELETE FROM projects_volunteers *;")
+    DB.exec("DELETE FROM leaders *;")
   end
 end

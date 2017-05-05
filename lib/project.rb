@@ -44,15 +44,7 @@ class Project
     DB.exec("UPDATE projects SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
-  # def update_projects_volunteers (attributes)
-  #   time = attributes[:time]
-  #   attributes.fetch(volunteer_ids, []).each_with_index() do |volunteer_id, time|
-  #     DB.exec("INSERT INTO projects_volunteers(project_id, volunteer_id, time) VALUES (#{self.id()}, #{volunteer_id.to_i}, #{time(index)})")
-  #   end
-  # end
-
   def update_projects_volunteers (attributes)
-    # times = attributes.fetch(:times, [])
     volunteer_ids = attributes.fetch(:volunteer_ids, [])
     volunteer_ids.each_with_index() do |volunteer_id, index|
       DB.exec("INSERT INTO projects_volunteers(project_id, volunteer_id) VALUES (#{self.id()}, #{volunteer_id.to_i})")
