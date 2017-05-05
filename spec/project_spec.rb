@@ -45,14 +45,10 @@ describe(Project) do
 
   describe '#volunteers' do
     it('returns an array of volunteers for that project') do
-      project = Project.new({:name => "polar express"})
-      project.save()
-      volunteer = Volunteer.new({:name => "Toronto"})
-      volunteer.save()
-      volunteer1 = Volunteer.new({:name => "Omaha"})
-      volunteer1.save()
-      project.update_projects_volunteers ({:volunteer_ids => [volunteer.id, volunteer1.id]})
-      expect(project.volunteers()).to eq([volunteer, volunteer1])
+      project = Helper.make_projects()
+      volunteer0, volunteer1 = Helper.make_volunteers(2)
+      project.update_projects_volunteers ({:volunteer_ids => [volunteer0.id, volunteer1.id]})
+      expect(project.volunteers()).to eq([volunteer0, volunteer1])
     end
   end
   describe '#update_project' do
