@@ -1,4 +1,3 @@
-
 class Helper
   def self.clear_db
     DB.exec("DELETE FROM volunteers *;")

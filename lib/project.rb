@@ -1,5 +1,5 @@
 class Project
-  attr_accessor(:name, :leader_id, :date_time, :time)
+  attr_accessor(:name, :leader_id, :date_and_time, :length)
   attr_reader(:id)
 
   def initialize(attributes)

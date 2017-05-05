@@ -1,5 +1,5 @@
 class Leader
-  attr_accessor(:name)
+  attr_accessor(:name, :total_time)
   attr_reader(:id)
 
   def initialize (attributes)
@@ -25,5 +25,6 @@ class Leader
       name = Project.find(id).name()
       list_projects.push(Project.new({:name => name, :id => id}))
       saved_pro
-
+    end
+  end
 end
