@@ -51,7 +51,7 @@ describe(Project) do
       volunteer.save()
       volunteer1 = Volunteer.new({:name => "Omaha"})
       volunteer1.save()
-      project.update_project_volunteer_joins ([volunteer.id, volunteer1.id])
+      project.update_projects_volunteers ({:volunteer_ids => [volunteer.id, volunteer1.id]})
       expect(project.volunteers()).to eq([volunteer, volunteer1])
     end
   end
@@ -72,20 +72,20 @@ describe(Project) do
       project.delete_project()
       expect(Project.all()).to eq([])
     end
-    it "deletes a project from project_volunteer_joins database" do
+    it "deletes a project from projects_volunteers database" do
       project = Project.new({:name => "polar express"})
       project.save()
       volunteer = Volunteer.new({:name => "Seattle"})
       volunteer.save()
-      project.update_project_volunteer_joins([volunteer.id()])
-      project_volunteer_join = Helper.all_project_volunteer_joins().first()
-      expect(project_volunteer_join["project_id"].to_i()).to eq(project.id())
+      project.update_projects_volunteers({:volunteer_ids => [volunteer.id()]})
+      project_volunteer = Helper.all_projects_volunteers().first()
+      expect(project_volunteer["project_id"].to_i()).to eq(project.id())
       project.delete_project()
-      expect(Helper.all_project_volunteer_joins().first()).to eq(nil)
+      expect(Helper.all_projects_volunteers().first()).to eq(nil)
     end
   end
 
-  describe '#update_project_volunteer_joins' do
+  describe '#update_projects_volunteers' do
     it "creates join rows to connect volunteers and a project" do
       project = Project.new({:name => "polar express"})
       project.save()
@@ -93,7 +93,7 @@ describe(Project) do
       volunteer.save()
       volunteer1 = Volunteer.new({:name => "Omaha"})
       volunteer1.save()
-      project.update_project_volunteer_joins([volunteer1.id(), volunteer.id()])
+      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer.id()]})
       expect(project.volunteers()).to eq([volunteer1, volunteer])
     end
   end
@@ -106,7 +106,7 @@ describe(Project) do
       volunteer.save()
       volunteer1 = Volunteer.new({:name => "Omaha"})
       volunteer1.save()
-      project.update_project_volunteer_joins([volunteer1.id()])
+      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id()]})
       expect(project.not_volunteers()).to eq([volunteer])
     end
   end

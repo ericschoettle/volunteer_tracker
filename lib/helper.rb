@@ -4,7 +4,7 @@ class Helper
     DB.exec("DELETE FROM projects *;")
   end
 
-  def self.all_project_volunteer_joins
-    DB.exec("SELECT * FROM project_volunteer_joins;")
+  def self.all_projects_volunteers
+    DB.exec("SELECT * FROM projects_volunteers;")
   end
 end

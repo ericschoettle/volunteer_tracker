@@ -19,9 +19,9 @@ class Volunteer
 
   def projects
     list_projects = []
-    project_volunteer_joins = DB.exec("SELECT * FROM project_volunteer_joins WHERE volunteer_id = #{self.id};")
-    project_volunteer_joins.each() do |project_volunteer_join|
-      id = project_volunteer_join['project_id'].to_i()
+    projects_volunteers = DB.exec("SELECT * FROM projects_volunteers WHERE volunteer_id = #{self.id};")
+    projects_volunteers.each() do |project_volunteer|
+      id = project_volunteer['project_id'].to_i()
       name = Project.find(id).name()
       list_projects.push(Project.new({:name => name, :id => id}))
     end
@@ -44,20 +44,20 @@ class Volunteer
     DB.exec("UPDATE volunteers SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
-  def update_project_volunteer_joins (project_ids)
+  def update_projects_volunteers (project_ids)
     project_ids.each() do |project_id|
-      DB.exec("INSERT INTO project_volunteer_joins (project_id, volunteer_id) VALUES (#{project_id}, #{self.id()})")
+      DB.exec("INSERT INTO projects_volunteers (project_id, volunteer_id) VALUES (#{project_id}, #{self.id()})")
     end
   end
 
   def delete_volunteer
     DB.exec("DELETE FROM volunteers WHERE id = #{self.id()};")
-    DB.exec("DELETE FROM project_volunteer_joins WHERE volunteer_id = #{self.id()};")
+    DB.exec("DELETE FROM projects_volunteers WHERE volunteer_id = #{self.id()};")
   end
 
-  def delete_project_volunteer_joins(project_ids)
+  def delete_projects_volunteers(project_ids)
     project_ids.each() do |project_id|
-      DB.exec("DELETE FROM project_volunteer_joins WHERE project_id = #{project_id};")
+      DB.exec("DELETE FROM projects_volunteers WHERE project_id = #{project_id};")
     end
   end
 

@@ -27,6 +27,15 @@ _Volunteer Tracker requires setup of a SQL database in order to function. To set
   * _"CREATE DATABASE volunteer_tracker_test WITH TEMPLATE volunteer_tracker;"_
 * _Give yourself a pat on the back! You didn't mess it up! If you did (don't worry, so did I), here's a handy cheat sheet you can use to fix it: https://www.learnhowtoprogram.com/ruby/ruby-database-basics/sql-basics. Enjoy!_
 
+_Further installation is required to run the ruby code in Sinatra_
+
+* _navigate to
+* _Download from ______
+* navigate to
+*_ run bundle
+* _run ruby app.rb
+*web browser, localhost 4567
+
 ## Support and contact details
 
 _I'd be glad to offer support if you find yourself using this app, but much less glad to share my email address. Sorry, the latter wins_

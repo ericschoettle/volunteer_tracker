@@ -7,7 +7,7 @@ require 'pry'
 require 'pg'
 also_reload('lib/**/*.rb')
 
-DB = PG.connect({:dbname => "projects"})
+DB = PG.connect({:dbname => "volunteer_tracker"})
 
 get('/') do
   @projects = Project.all()
@@ -39,13 +39,13 @@ end
 patch("/project/:id") do
   binding.pry
   @project = Project.find(params["id"].to_i())
-  @project.update_project_volunteer_joins({:volunteer_ids => params[:volunteer_ids], :times => params[:times]})
+  @project.update_projects_volunteers({:volunteer_ids => params[:volunteer_ids], :times => params[:times]})
   erb(:project)
 end
 
 delete("/project/:id") do
   @project = Project.find(params["id"].to_i())
-  @project.delete_project_volunteer_joins(params["volunteer_ids"])
+  @project.delete_projects_volunteers(params["volunteer_ids"])
   erb(:project)
 end
 
@@ -74,13 +74,13 @@ end
 
 patch("/volunteer/:id") do
   @volunteer = Volunteer.find(params["id"].to_i())
-  @volunteer.update_project_volunteer_joins(params[:project_ids])
+  @volunteer.update_projects_volunteers(params[:project_ids])
   erb(:volunteer)
 end
 
 delete("/volunteer/:id") do
   @volunteer = Volunteer.find(params["id"].to_i())
-  @volunteer.delete_project_volunteer_joins(params["project_ids"])
+  @volunteer.delete_projects_volunteers(params["project_ids"])
   erb(:volunteer)
 end
 

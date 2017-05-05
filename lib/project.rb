@@ -19,9 +19,9 @@ class Project
 
   def volunteers
     list_volunteers = []
-    project_volunteer_joins = DB.exec("SELECT * FROM project_volunteer_joins WHERE project_id = #{self.id};")
-    project_volunteer_joins.each() do |project_volunteer_join|
-      id = project_volunteer_join['volunteer_id'].to_i()
+    projects_volunteers = DB.exec("SELECT * FROM projects_volunteers WHERE project_id = #{self.id};")
+    projects_volunteers.each() do |project_volunteer|
+      id = project_volunteer['volunteer_id'].to_i()
       name = Volunteer.find(id).name()
       list_volunteers.push(Volunteer.new({:name => name, :id => id}))
     end
@@ -44,29 +44,29 @@ class Project
     DB.exec("UPDATE projects SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
-  # def update_project_volunteer_joins (attributes)
+  # def update_projects_volunteers (attributes)
   #   time = attributes[:time]
   #   attributes.fetch(volunteer_ids, []).each_with_index() do |volunteer_id, time|
-  #     DB.exec("INSERT INTO project_volunteer_joins(project_id, volunteer_id, time) VALUES (#{self.id()}, #{volunteer_id.to_i}, #{time(index)})")
+  #     DB.exec("INSERT INTO projects_volunteers(project_id, volunteer_id, time) VALUES (#{self.id()}, #{volunteer_id.to_i}, #{time(index)})")
   #   end
   # end
 
-  def update_project_volunteer_joins (attributes)
-    times = attributes.fetch(:times, [])
+  def update_projects_volunteers (attributes)
+    # times = attributes.fetch(:times, [])
     volunteer_ids = attributes.fetch(:volunteer_ids, [])
     volunteer_ids.each_with_index() do |volunteer_id, index|
-      DB.exec("INSERT INTO project_volunteer_joins(project_id, volunteer_id, time) VALUES (#{self.id()}, #{volunteer_id.to_i}, #{times(index)})")
+      DB.exec("INSERT INTO projects_volunteers(project_id, volunteer_id) VALUES (#{self.id()}, #{volunteer_id.to_i})")
     end
   end
 
   def delete_project
     DB.exec("DELETE FROM projects WHERE id = #{self.id()};")
-    DB.exec("DELETE FROM project_volunteer_joins WHERE project_id = #{self.id()};")
+    DB.exec("DELETE FROM projects_volunteers WHERE project_id = #{self.id()};")
   end
 
-  def delete_project_volunteer_joins (volunteer_ids)
+  def delete_projects_volunteers (volunteer_ids)
     volunteer_ids.each() do |volunteer_id|
-      DB.exec("DELETE from project_volunteer_joins where volunteer_id = #{volunteer_id};")
+      DB.exec("DELETE from projects_volunteers where volunteer_id = #{volunteer_id};")
     end
   end
 

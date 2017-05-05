@@ -33,7 +33,7 @@ describe(Volunteer) do
       project1.save()
       volunteer = Volunteer.new({:name => "Toronto"})
       volunteer.save()
-      volunteer.update_project_volunteer_joins ([project.id, project1.id])
+      volunteer.update_projects_volunteers ([project.id, project1.id])
       expect(volunteer.projects()).to eq([project, project1])
     end
   end
@@ -45,16 +45,16 @@ describe(Volunteer) do
       volunteer.delete_volunteer()
       expect(Volunteer.all()).to eq([])
     end
-    it "deletes a volunteer from the project_volunteer_joins database" do
+    it "deletes a volunteer from the projects_volunteers database" do
       volunteer = Volunteer.new({:name => "Seattle"})
       volunteer.save()
       project = Project.new({:name => "polar express"})
       project.save()
-      volunteer.update_project_volunteer_joins([project.id()])
-      project_volunteer_join = Helper.all_project_volunteer_joins().first()
-      expect(project_volunteer_join["volunteer_id"].to_i()).to eq(volunteer.id())
+      volunteer.update_projects_volunteers([project.id()])
+      project_volunteer = Helper.all_projects_volunteers().first()
+      expect(project_volunteer["volunteer_id"].to_i()).to eq(volunteer.id())
       volunteer.delete_volunteer()
-      expect(Helper.all_project_volunteer_joins().first()).to eq(nil)
+      expect(Helper.all_projects_volunteers().first()).to eq(nil)
     end
   end
 end
