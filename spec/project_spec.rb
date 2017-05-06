@@ -12,7 +12,7 @@ describe(Project) do
     it "returns the leader of the project" do
       project = Helper.make_projects()
       leader = Helper.make_leaders()
-      project.add_leader(leader)
+      project = project.add_leader(leader)
       expect(project.leader()).to eq(leader)
     end
   end
@@ -62,8 +62,8 @@ describe(Project) do
     it "lets you add a leader to a project" do
       project = Helper.make_projects()
       leader = Helper.make_leaders()
-      project.add_leader(leader)
-      expect(project.leader_id).to(eq(leader.id()))
+      project = project.add_leader(leader)
+      expect(project.leader_id()).to(eq(leader.id()))
     end
   end
 

@@ -47,7 +47,6 @@ class Project
   def add_leader(leader)
     DB.exec("UPDATE projects SET leader_id = #{leader.id()} WHERE id = #{self.id};")
     Project.find(self.id())
-
   end
 
   def update_project(name)
