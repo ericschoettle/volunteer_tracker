@@ -57,6 +57,19 @@ describe Leader do
     end
   end
 
+  describe '#delete_leader_projects' do
+    it "lets you delete leaders from a project" do
+      leader = Helper.make_leaders()
+      project = Helper.make_projects()
+      project.add_leader(leader)
+      project = Project.find(project.id())
+      expect(project.leader_id()).to(eq(leader.id()))
+      leader.delete_leader_projects()
+      project = Project.find(project.id())
+      expect(project.leader_id).to(eq(0))
+    end
+  end
+
   describe '#not_projects' do
     it "shows projects that are not assigned to the project" do
       leader = Helper.make_leaders()

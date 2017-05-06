@@ -47,9 +47,13 @@ class Leader
 
   def update_leader_projects(attributes)
     project_ids = attributes.fetch(:project_ids, [])
-    project_ids.each_with_index() do |project_id, index|
+    project_ids.each() do |project_id|
       DB.exec("UPDATE projects SET leader_id = '#{self.id()}' WHERE id = #{project_id};")
     end
+  end
+
+  def delete_leader_projects()
+    DB.exec("UPDATE projects SET leader_id = null WHERE leader_id = #{self.id()};")
   end
 
   def delete_leader

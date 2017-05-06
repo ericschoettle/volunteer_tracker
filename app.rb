@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require './lib/project'
 require './lib/volunteer'
 require './lib/helper'
+require './lib/leader'
 require 'pry'
 require 'pg'
 also_reload('lib/**/*.rb')
@@ -24,9 +25,41 @@ post('/clear') do
   erb(:index)
 end
 
-get('/project/:id') do
-  @project = Project.find(params[:id].to_i())
-  erb(:project)
+post('/leader') do
+  name = params[:name]
+  new_leader = Leader.new({:name => name})
+  new_leader.save()
+  @projects = Project.all()
+  @volunteers = Volunteer.all()
+  @leaders = Leader.all()
+  erb(:index)
+end
+
+get('/leader/:id') do
+  @leader = Leader.find(params[:id].to_i())
+  erb(:leader)
+end
+
+patch("/leader/:id") do
+  binding.pry
+  @leader = Project.find(params["id"].to_i())
+  @leader.update_leader_projects({:project_ids => params[:project_ids]})
+  erb(:leader)
+end
+
+delete("/project/:id") do
+  @leader = Leader.find(params["id"].to_i())
+  @leader.delete_leader_projects(params["project_ids"])
+  erb(:leader)
+end
+
+delete("/leader") do
+  leader = Leader.find(params["id"].to_i())
+  leader.delete_leader()
+  @projects = Project.all()
+  @volunteers = Volunteer.all()
+  @leaders = Leader.all()
+  erb(:index)
 end
 
 post('/project') do
@@ -39,8 +72,12 @@ post('/project') do
   erb(:index)
 end
 
+get('/project/:id') do
+  @project = Project.find(params[:id].to_i())
+  erb(:project)
+end
+
 patch("/project/:id") do
-  binding.pry
   @project = Project.find(params["id"].to_i())
   @project.update_projects_volunteers({:volunteer_ids => params[:volunteer_ids], :times => params[:times]})
   erb(:project)

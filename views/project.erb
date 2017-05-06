@@ -2,7 +2,7 @@
   <h1><%= @project.name().upcase() %></h1>
   <div class="row">
     <div class="col-md-6">
-      <h3>Volunteers <%= @project.name() %> visits</h3>
+      <h3>Volunteers working on <%= @project.name() %></h3>
       <% if @project.volunteers.any?() %>
         <form  action="/project/<%= @project.id %>" method="post">
           <input type="hidden" name="_method" value="delete">
@@ -18,7 +18,7 @@
       <% end %>
     </div>
     <div class="col-md-6">
-      <h3>Volunteers <%= @project.name() %> does not visit</h3>
+      <h3>Volunteers not working on <%= @project.name() %></h3>
       <% if @project.not_volunteers.any?() %>
         <form  action="/project/<%= @project.id %>" method="post">
           <input type="hidden" name="_method" value="patch">

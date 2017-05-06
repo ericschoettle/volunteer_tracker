@@ -1,4 +1,28 @@
 <div class="jumbotron">
+  <% if not @leaders.nil? %>
+    <h2>Available leaders:</h2>
+    <ul>
+      <% @leaders.each() do |leader| %>
+        <p>
+          <li><a href="/leader/<%= leader.id() %> "><%= leader.name() %>, <%= leader.projects().length() %> projects </a></li>
+        </p>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <h2>Add a leader:</h2>
+
+  <form action="/leader" method="post">
+    <div class="form-group" id="leader">
+      <label for="name">Enter Leader's name</label>
+      <input class="form-control" type="text" name="name" placeholder="eg: Death" required>
+    </div>
+    <button class="btn btn-success" type="submit">Add the leader</button>
+  </form>
+</div>
+
+
+<div class="jumbotron">
   <% if not @projects.nil? %>
     <h2>Available projects:</h2>
     <ul>

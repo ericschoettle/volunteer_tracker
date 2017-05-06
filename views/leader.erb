@@ -1,0 +1,61 @@
+<div class="jumbotron">
+  <h1><%= @leader.name().upcase() %></h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Projects <%= @leader.name() %> will run</h3>
+      <% if @leader.projects.any?() %>
+        <form  action="/leader/<%= @leader.id %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+
+          <% @leader.projects.each() do |project| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="project_ids[]" value="<%= project.id() %>"><%= project.name() %></label>
+
+            </div>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Delete Projects from Leader</button>
+        </form>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <h3>Projects <%= @leader.name() %> is not assigned to</h3>
+      <% if @leader.not_projects.any?() %>
+        <form  action="/leader/<%= @leader.id %>" method="post">
+          <input type="hidden" name="_method" value="patch">
+
+          <% @leader.not_projects.each() do |project| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="project_ids[]" onclick="dynInput(this)" value="<%= project.id() %>"><%= project.name() %></label>
+            </div>
+            <p id="insertinputs"></p>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Add Projects to Project</button>
+        </form>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Delete <%= @leader.name() %>:</h3>
+
+      <form action="/leader" method="post">
+        <input type="hidden" name="id" value="<%= @leader.id() %>">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-primary">Delete Project</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h3>Update <%= @leader.name() %>:</h3>
+
+      <form action="/leader/<%= @leader.id() %>" method="post">
+
+        <input type="hidden" name="_method" value="patch">
+        <div class="form-group">
+          <label for="name">Project's new name?</label>
+          <input type="text" name="name" placeholder="eg Thomas" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Project</button>
+      </form>
+    </div>
+  </div>
+</div>
