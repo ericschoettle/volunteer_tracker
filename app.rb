@@ -12,6 +12,7 @@ DB = PG.connect({:dbname => "volunteer_tracker"})
 get('/') do
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end
 
@@ -19,6 +20,7 @@ post('/clear') do
   Helper.clear_db()
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end
 
@@ -33,6 +35,7 @@ post('/project') do
   new_project.save()
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end
 
@@ -54,6 +57,7 @@ delete("/project") do
   project.delete_project()
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end
 
@@ -69,6 +73,7 @@ post('/volunteer') do
   new_volunteer.save()
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end
 
@@ -90,5 +95,6 @@ delete("/volunteer") do
   volunteer.delete_volunteer()
   @projects = Project.all()
   @volunteers = Volunteer.all()
+  @leaders = Leader.all()
   erb(:index)
 end

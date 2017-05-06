@@ -8,6 +8,15 @@ describe(Project) do
     end
   end
 
+  describe '#leader' do
+    it "returns the leader of the project" do
+      project = Helper.make_projects()
+      leader = Helper.make_leaders()
+      project.add_leader(leader)
+      expect(project.leader()).to eq(leader)
+    end
+  end
+
   describe '#id and #save' do
     it('saves and gives ID') do
       project = Helper.make_projects()
@@ -49,12 +58,31 @@ describe(Project) do
     end
   end
 
-  describe '#update_project' do
-    it "lets you update projects in the database" do
+  describe '#add_leader' do
+    it "lets you add a leader to a project" do
       project = Helper.make_projects()
-      project.update_project("make things")
-      project = Project.find(project.id())
-      expect(project.name()).to(eq("make things"))
+      leader = Helper.make_leaders()
+      project.add_leader(leader)
+      expect(project.leader_id).to(eq(leader.id()))
+    end
+  end
+
+  describe '#update_projects_volunteers' do
+    it "creates join rows to connect volunteers and a project" do
+      project = Helper.make_projects()
+      volunteer1, volunteer2 = Helper.make_volunteers(2)
+      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer2.id()]})
+      expect(project.volunteers()).to eq([volunteer1, volunteer2])
+    end
+  end
+
+  describe '#delete_leader' do
+    it "lets you delete a leader from a project" do
+      project = Helper.make_projects()
+      leader = Helper.make_leaders()
+      project.add_leader(leader)
+      project.delete_leader()
+      expect(project.leader_id).to(eq(nil))
     end
   end
 
@@ -72,15 +100,6 @@ describe(Project) do
       expect(project_volunteer["project_id"].to_i()).to eq(project.id())
       project.delete_project()
       expect(Helper.all_projects_volunteers().first()).to eq(nil)
-    end
-  end
-
-  describe '#update_projects_volunteers' do
-    it "creates join rows to connect volunteers and a project" do
-      project = Helper.make_projects()
-      volunteer1, volunteer2 = Helper.make_volunteers(2)
-      project.update_projects_volunteers({:volunteer_ids => [volunteer1.id(), volunteer2.id()]})
-      expect(project.volunteers()).to eq([volunteer1, volunteer2])
     end
   end
 end

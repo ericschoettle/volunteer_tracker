@@ -40,8 +40,19 @@ class Project
     return not_volunteers
   end
 
+  def leader
+    Leader.find(@leader_id)
+  end
+
+  def add_leader(leader)
+    DB.exec("UPDATE projects SET leader_id = #{leader.id()} WHERE id = #{self.id};")
+    Project.find(self.id())
+
+  end
+
   def update_project(name)
     DB.exec("UPDATE projects SET name = '#{name}' WHERE id = #{self.id()};")
+    Project.find(self.id())
   end
 
   def update_projects_volunteers (attributes)
@@ -49,6 +60,10 @@ class Project
     volunteer_ids.each_with_index() do |volunteer_id, index|
       DB.exec("INSERT INTO projects_volunteers(project_id, volunteer_id) VALUES (#{self.id()}, #{volunteer_id.to_i})")
     end
+  end
+
+  def delete_leader
+    DB.exec("UPDATE projects SET leader_id = null WHERE id = #{self.id};")
   end
 
   def delete_project
@@ -68,8 +83,9 @@ class Project
       saved_projects = []
       all_projects.each() do |project|
         name = project['name']
+        leader_id = project['leader_id'].to_i()
         id = project['id'].to_i()
-        saved_projects.push(Project.new({:name => name, :id => id}))
+        saved_projects.push(Project.new({:name => name, :leader_id => leader_id, :id => id}))
       end
       return saved_projects
     end
