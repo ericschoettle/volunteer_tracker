@@ -13,7 +13,7 @@ describe('volunteer_tracker_path', :type => :feature) do
     expect(page).to have_content('save the world')
   end
 
-  it "adds a volunteer" do
+  it "adds a volunteer and a project, assigns that volunteer to the project, and removes that volunteer from the project" do
     visit('/')
     within('#volunteer') {fill_in("name", :with => "Sally")}
     click_button("Add the volunteer")
