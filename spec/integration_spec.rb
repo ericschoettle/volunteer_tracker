@@ -11,15 +11,23 @@ describe('volunteer_tracker_path', :type => :feature) do
     within('#project') {fill_in("name", :with => "save the world")}
     click_button("Add the project")
     expect(page).to have_content('save the world')
-    click_link('save the world')
   end
 
   it "adds a volunteer" do
     visit('/')
     within('#volunteer') {fill_in("name", :with => "Sally")}
     click_button("Add the volunteer")
+    within('#project') {fill_in("name", :with => "save the world")}
+    click_button("Add the project")
     expect(page).to have_content('Sally')
     click_link('Sally')
+    expect(page).to have_content('Projects that Sally is not working on save the world')
+    check("save the world")
+    click_button("Add Projects to Volunteer")
+    expect(page).to have_content('Projects that Sally has committed to save the world')
+    check("save the world")
+    click_button("Delete Projects from volunteer")
+    expect(page).to have_content('Projects that Sally is not working on save the world')
   end
 
   it "adds a leader" do
@@ -27,7 +35,6 @@ describe('volunteer_tracker_path', :type => :feature) do
     within('#leader') {fill_in("name", :with => "Bob")}
     click_button("Add the leader")
     expect(page).to have_content('Bob')
-    click_link('Bob')
   end
 end
 

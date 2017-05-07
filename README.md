@@ -29,12 +29,11 @@ _Volunteer Tracker requires setup of a SQL database in order to function. To set
 
 _Further installation is required to run the ruby code in Sinatra_
 
-* _navigate to
-* _Download from ______
-* navigate to
-*_ run bundle
-* _run ruby app.rb
-*web browser, localhost 4567
+* _In Terminal yet another terminal window or tab, type "git clone https://github.com/ericschoettle/volunteer_tracker.git" and hit return to run the command_
+* _Navigate into the folder by typing "CD volunteer_tracker" in terminal_
+* _Run "bundle"_
+* _Run "ruby app.rb"_
+* _Open your favorite web browser, and navigate to "localhost:4567"_
 
 ## Support and contact details
 
