@@ -1,4 +1,6 @@
-function dynInput(cbox) {
+// the below function adds a field to a form when a checkbox is clicked (cbox). To implement, just add add the following to the checkbox tags 'onClick="dynamicInput(this)"'.
+
+function dynamicInput(cbox) {
   if (cbox.checked) {
     var input = document.createElement("input");
     input.type = "time";
@@ -11,6 +13,8 @@ function dynInput(cbox) {
     document.getElementById(cbox.name).remove();
   }
 }
+
+
 
 // $(function(){
 //   $(".cbox").click(function() {

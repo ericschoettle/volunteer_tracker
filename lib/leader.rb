@@ -52,13 +52,16 @@ class Leader
     end
   end
 
-  def delete_leader_projects()
-    DB.exec("UPDATE projects SET leader_id = null WHERE leader_id = #{self.id()};")
+  def delete_leader_projects(attributes)
+    project_ids = attributes.fetch(:project_ids, [])
+    project_ids.each() do |project_id|
+      DB.exec("UPDATE projects SET leader_id = null WHERE id = #{project_id};")
+    end
   end
 
   def delete_leader
     DB.exec("DELETE FROM leaders WHERE id = #{self.id()};")
-    DB.exec("DELETE FROM projects WHERE leader_id = #{self.id()};")
+    DB.exec("UPDATE projects SET leader_id = null WHERE leader_id = #{self.id};")
   end
 
   class << self

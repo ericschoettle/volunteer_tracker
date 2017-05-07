@@ -64,9 +64,20 @@ describe Leader do
       project.add_leader(leader)
       project = Project.find(project.id())
       expect(project.leader_id()).to(eq(leader.id()))
-      leader.delete_leader_projects()
+      leader.delete_leader_projects({:project_ids => [project.id()]})
       project = Project.find(project.id())
       expect(project.leader_id).to(eq(0))
+    end
+  end
+
+  describe '#update_leader_projects' do
+    it "lets you add multiple projects to a leader" do
+      leader = Helper.make_leaders()
+      project1, project2 = Helper.make_projects(2)
+      project_ids = [project1.id(), project2.id()]
+      leader.update_leader_projects({:project_ids => project_ids})
+      project1 = Project.find(project1.id())
+      expect(project1.leader_id).to(eq(leader.id()))
     end
   end
 

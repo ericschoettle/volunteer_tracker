@@ -6,14 +6,12 @@
       <% if @leader.projects.any?() %>
         <form  action="/leader/<%= @leader.id %>" method="post">
           <input type="hidden" name="_method" value="delete">
-
           <% @leader.projects.each() do |project| %>
             <div class="checkbox">
               <label><input type="checkbox" name="project_ids[]" value="<%= project.id() %>"><%= project.name() %></label>
-
             </div>
           <% end %>
-          <button type="submit" class="btn btn-primary">Delete Projects from Leader</button>
+          <button type="submit" class="btn btn-primary">Delete Projects from <%= @leader.name() %>' list</button>
         </form>
       <% end %>
     </div>
@@ -25,11 +23,11 @@
 
           <% @leader.not_projects.each() do |project| %>
             <div class="checkbox">
-              <label><input type="checkbox" name="project_ids[]" onclick="dynInput(this)" value="<%= project.id() %>"><%= project.name() %></label>
+              <label><input type="checkbox" name="project_ids[]" value="<%= project.id() %>"><%= project.name() %></label>
             </div>
             <p id="insertinputs"></p>
           <% end %>
-          <button type="submit" class="btn btn-primary">Add Projects to Project</button>
+          <button type="submit" class="btn btn-primary">Add Projects to  poor <%= @leader.name() %>'s docket</button>
         </form>
       <% end %>
     </div>
@@ -41,20 +39,20 @@
       <form action="/leader" method="post">
         <input type="hidden" name="id" value="<%= @leader.id() %>">
         <input type="hidden" name="_method" value="delete">
-        <button type="submit" class="btn btn-primary">Delete Project</button>
+        <button type="submit" class="btn btn-primary">Delete Leader</button>
       </form>
     </div>
     <div class="col-md-6">
       <h3>Update <%= @leader.name() %>:</h3>
 
-      <form action="/leader/<%= @leader.id() %>" method="post">
-
+      <form action="/leader" method="post">
+        <input type="hidden" name="id" value="<%= @leader.id() %>">
         <input type="hidden" name="_method" value="patch">
         <div class="form-group">
-          <label for="name">Project's new name?</label>
+          <label for="name">Leader's new name?</label>
           <input type="text" name="name" placeholder="eg Thomas" required>
         </div>
-        <button type="submit" class="btn btn-primary">Update Project</button>
+        <button type="submit" class="btn btn-primary">Update Leader</button>
       </form>
     </div>
   </div>

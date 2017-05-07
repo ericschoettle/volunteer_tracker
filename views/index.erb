@@ -4,7 +4,7 @@
     <ul>
       <% @leaders.each() do |leader| %>
         <p>
-          <li><a href="/leader/<%= leader.id() %> "><%= leader.name() %>, <%= leader.projects().length() %> projects </a></li>
+          <li><a href="/leader/<%= leader.id() %> "><%= leader.name() %></a></li>
         </p>
       <% end %>
     </ul>
@@ -28,7 +28,7 @@
     <ul>
       <% @projects.each() do |project| %>
         <p>
-          <li><a href="/project/<%= project.id() %> "><%= project.name() %>, <%= project.volunteers().length() %> volunteers </a></li>
+          <li><a href="/project/<%= project.id() %> "><%= project.name() %></a></li>
         </p>
       <% end %>
     </ul>
@@ -51,7 +51,6 @@
     <ul>
       <% @volunteers.each() do |volunteer| %>
         <a href="/volunteer/<%= volunteer.id() %>"><li><%= volunteer.name() %></li></a>
-
       <% end %>
     </ul>
   <% end %>
@@ -59,20 +58,10 @@
   <h2>Add a volunteer:</h2>
 
   <form action="/volunteer" method="post">
-    <div class="form-group">
+    <div class="form-group" id="volunteer">
       <label for="name">Enter a name</label>
       <input class="form-control" type="text" name="name" placeholder="eg: Jane Doe" required>
     </div>
-    <!-- select menu for projects -->
-    <!-- <div class="form-group">
-      <select name="project" id="projectSelect">
-        <% if @projects != nil %>
-          <% @projects.each() do |project| %>
-            <option value="<%= project.id %>"><%= project.name %></option>
-          <% end %>
-        <% end %>
-      </select>
-    </div> -->
     <button class="btn btn-success" type="submit">Add the volunteer</button>
   </form>
 </div>
